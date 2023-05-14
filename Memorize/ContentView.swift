@@ -1,17 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    let arrEmoij=["😏","😉","😜","😄","😂","🤣","😁","😆","🥲","😀","🥹","😌","😭","😒","😩","😳"]
-    let arrAnmainls=["🐶","🦊","🐯","🐸","🐣","🐒","🦅","🐴","🦄","🦉","🐥","🐔","🐵","🦁","🐻","🐱"]
-    let arrFurits=["🍏","🍌","🍈","🥥","🫛","🫑","🧅","🥯","🍞","🥔","🌽","🥦","🍒","🥝","🍉","🍎","🍐","🍇","🍑"]
+   @ObservedObject var gvm:GameViewModel
+//    let arrEmoij=["😏","😉","😜","😄","😂","🤣","😁","😆","🥲","😀","🥹","😌","😭","😒","😩","😳"]
+//    let arrAnmainls=["🐶","🦊","🐯","🐸","🐣","🐒","🦅","🐴","🦄","🦉","🐥","🐔","🐵","🦁","🐻","🐱"]
+//    let arrFurits=["🍏","🍌","🍈","🥥","🫛","🫑","🧅","🥯","🍞","🥔","🌽","🥦","🍒","🥝","🍉","🍎","🍐","🍇","🍑"]
+//
     
-    
-    @State var emojConter:Int
-    @State var arr:[String]
-    init() {
-        self.emojConter = 4
-        self.arr = arrEmoij
-    }
     var body: some View {
       
         VStack{
@@ -21,11 +16,16 @@ struct ContentView: View {
                 LazyVGrid(columns:[GridItem(.adaptive(minimum: 105)
                                            )
                 ]){
-                    
-                    ForEach(arr[0...emojConter],id: \.self){ e in
-                        Card(emoj: e)
+                    ForEach(gvm.model.cards,id:\.id){ card in
+                        Card(card: card).onTapGesture {
+                            gvm.chosee(choseeCard: card)
+                        }
                     }.foregroundColor(.red).padding(4.0)
                         .aspectRatio(2/3, contentMode: .fit)
+                        .onTapGesture {
+                   
+                        }
+                    
                 }
             }
             Spacer()
@@ -44,11 +44,8 @@ struct ContentView: View {
     
     var animal:some View{
         Button(action:{
-//            if(emojConter<(arr.count-1)){
-//                emojConter+=1;
-//            }
-            arr=arrAnmainls.shuffled()
-            emojConter=6
+            gvm.chageArray(numberOfPair: 3, typeOfArray: TypeOFArray.Animainls)
+           
         }){
             VStack{
                 Image(systemName: "pawprint")
@@ -60,11 +57,9 @@ struct ContentView: View {
     var carrot:some View{
         HStack{
             Button(action:{
-//                if(emojConter > 0){
-//                    emojConter-=1;
-//                }
-                arr=arrFurits.shuffled()
-                emojConter=7
+                gvm.chageArray(numberOfPair: 4, typeOfArray: TypeOFArray.Furits)
+
+               
             }){
                 VStack{
                     Image(systemName: "carrot")
@@ -77,11 +72,7 @@ struct ContentView: View {
     var face:some View{
         HStack{
             Button(action:{
-//                if(emojConter > 0){
-//                    emojConter-=1;
-//                }
-                arr=arrEmoij.shuffled()
-                emojConter=4
+                gvm.chageArray(numberOfPair: 2, typeOfArray: TypeOFArray.Emoij)
             }){
                 VStack{
                     Image(systemName: "face.smiling.inverse")
@@ -94,26 +85,27 @@ struct ContentView: View {
 }
 
 struct Card: View {
-    let emoj:String
-    @State var isClicked = true
+    var card:MemoryModel<String>.Card
     var body: some View {
         let shape=RoundedRectangle( cornerRadius: 25)
         ZStack{
-            if(isClicked){
-                shape
-                    .fill()
-            }else {
+            if(card.isMatch){
+                shape.opacity(0)
+            }
+            else if(card.isCLicked){
+               
                 shape.fill().foregroundColor(.white)
                 shape
                     .strokeBorder(lineWidth: 4 )
                 
-                Text(emoj)
+                Text(card.content)
                     .font(.largeTitle)
+            }else {
+                shape
+                    .fill()
                 
             }
             
-        }.onTapGesture {
-            isClicked = !isClicked
         }
     }
     
@@ -122,7 +114,8 @@ struct Card: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let gvm=GameViewModel()
+        ContentView(gvm:gvm)
         
     }
 }
