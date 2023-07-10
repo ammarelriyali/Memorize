@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct ContentView: View {
-   @ObservedObject var gvm:GameViewModel
-//    let arrEmoij=["😏","😉","😜","😄","😂","🤣","😁","😆","🥲","😀","🥹","😌","😭","😒","😩","😳"]
-//    let arrAnmainls=["🐶","🦊","🐯","🐸","🐣","🐒","🦅","🐴","🦄","🦉","🐥","🐔","🐵","🦁","🐻","🐱"]
-//    let arrFurits=["🍏","🍌","🍈","🥥","🫛","🫑","🧅","🥯","🍞","🥔","🌽","🥦","🍒","🥝","🍉","🍎","🍐","🍇","🍑"]
-//
+struct MemorizeGame: View {
+   @ObservedObject private var viewModel:GameViewModel
+    
+    init(_ gvm: GameViewModel) {
+        self.viewModel = gvm
+    }
     
     var body: some View {
       
@@ -16,20 +16,23 @@ struct ContentView: View {
                 LazyVGrid(columns:[GridItem(.adaptive(minimum: 105)
                                            )
                 ]){
-                    ForEach(gvm.model.cards,id:\.id){ card in
-                        Card(card: card).onTapGesture {
-                            gvm.chosee(choseeCard: card)
+                    ForEach(viewModel.model.cards,id:\.id){ card in
+                        CardGame(card: card).onTapGesture {
+                            viewModel.chosee(choseeCard: card)
                         }
                     }.foregroundColor(.red).padding(4.0)
                         .aspectRatio(2/3, contentMode: .fit)
                         .onTapGesture {
                    
                         }
-                    
                 }
             }
             Spacer()
             HStack{
+                for i in 0...2{
+                    Spacer()
+                    IconEmoji(type: , viewModel: <#T##GameViewModel#>)
+                }
                 Spacer()
                 animal
                 Spacer()
@@ -44,7 +47,7 @@ struct ContentView: View {
     
     var animal:some View{
         Button(action:{
-            gvm.chageArray(numberOfPair: 3, typeOfArray: TypeOFArray.Animainls)
+            viewModel.chageArray(numberOfPair: 3, typeOfArray: TypeOFArray.Animainls)
            
         }){
             VStack{
@@ -57,7 +60,7 @@ struct ContentView: View {
     var carrot:some View{
         HStack{
             Button(action:{
-                gvm.chageArray(numberOfPair: 4, typeOfArray: TypeOFArray.Furits)
+                viewModel.chageArray(numberOfPair: 4, typeOfArray: TypeOFArray.Furits)
 
                
             }){
@@ -72,7 +75,7 @@ struct ContentView: View {
     var face:some View{
         HStack{
             Button(action:{
-                gvm.chageArray(numberOfPair: 2, typeOfArray: TypeOFArray.Emoij)
+                viewModel.chageArray(numberOfPair: 2, typeOfArray: TypeOFArray.Emoij)
             }){
                 VStack{
                     Image(systemName: "face.smiling.inverse")
@@ -84,38 +87,12 @@ struct ContentView: View {
     }
 }
 
-struct Card: View {
-    var card:MemoryModel<String>.Card
-    var body: some View {
-        let shape=RoundedRectangle( cornerRadius: 25)
-        ZStack{
-            if(card.isMatch){
-                shape.opacity(0)
-            }
-            else if(card.isCLicked){
-               
-                shape.fill().foregroundColor(.white)
-                shape
-                    .strokeBorder(lineWidth: 4 )
-                
-                Text(card.content)
-                    .font(.largeTitle)
-            }else {
-                shape
-                    .fill()
-                
-            }
-            
-        }
-    }
-    
-}
 
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let gvm=GameViewModel()
-        ContentView(gvm:gvm)
+        MemorizeGame(gvm)
         
     }
 }

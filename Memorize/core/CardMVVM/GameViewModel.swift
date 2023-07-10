@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum TypeOFArray{
-    case Emoij
-    case Animainls
-    case Furits
-}
 class GameViewModel : ObservableObject{
     static   let arrEmoij=["😏","😉","😜","😄","😂","🤣","😁","😆","🥲","😀","🥹","😌","😭","😒","😩","😳"]
     static   let arrAnmainls=["🐶","🦊","🐯","🐸","🐣","🐒","🦅","🐴","🦄","🦉","🐥","🐔","🐵","🦁","🐻","🐱"]
