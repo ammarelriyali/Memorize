@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 struct MemoryModel<CardContent> where CardContent:Equatable{
     
     private(set) var  cards : [Card]
@@ -18,6 +19,7 @@ struct MemoryModel<CardContent> where CardContent:Equatable{
             cards.append(Card(id: num*2+1, content: getContent(num)))
         }
     }
+    
     mutating func chosee(_ card:Card){
         if let chosenIndex = cards.firstIndex(where: { c in c.id == card.id }),!card.isMatch,!card.isCLicked{
             if let x = indexOfFistChoseeCard{

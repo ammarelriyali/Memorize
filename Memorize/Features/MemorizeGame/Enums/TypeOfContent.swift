@@ -7,9 +7,9 @@
 
 import Foundation
 enum TypeOfContent{
-    case emoij
+    case emojis
     case animals
-    case furits
+    case fruits
 }
 
 extension TypeOfContent {
@@ -18,10 +18,10 @@ extension TypeOfContent {
         switch(self){
         case .animals:
             return "Animals"
-        case .emoij:
+        case .emojis:
             return "Faces"
-        case .furits:
-            return "Furits"
+        case .fruits:
+            return "Fruits"
         }
     }
 }
@@ -31,12 +31,19 @@ extension TypeOfContent {
         switch(self){
         case .animals:
             return "pawprint"
-        case .emoij:
+        case .emojis:
             return "face.smiling"
-        case .furits:
+        case .fruits:
             return "carrot"
         }
     }
+}
+extension TypeOfContent : Identifiable{
+    var id : String{
+        title
+    }
+    
+    
 }
 
 

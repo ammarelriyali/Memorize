@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct test: View {
+struct CardView: View {
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: 8 )
         ZStack{
@@ -29,6 +29,6 @@ struct test: View {
 
 struct test_Previews: PreviewProvider {
     static var previews: some View {
-        test()
+        CardView()
     }
 }

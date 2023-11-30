@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CardGame: View {
+struct CardGameView: View {
     var card:MemoryModel<String>.Card
     var body: some View {
         let shape=RoundedRectangle( cornerRadius: 25)
@@ -33,3 +33,8 @@ struct CardGame: View {
     }
 }
 
+struct CardGame_Previews: PreviewProvider {
+    static var previews: some View {
+        CardGameView(card: MemoryModel<String>.Card(id: 1, content: "") )
+    }
+}

@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct IconEmoji: View {
+struct IconEmojiView: View {
     var title : String!
     var image : String!
-    var type : TypeOfArray
+    var type : TypeOfContent
     var viewModel : GameViewModel
     
     var body: some View {
@@ -23,5 +23,14 @@ struct IconEmoji: View {
                 Text(title).font(.subheadline)
             }
         }
+    }
+}
+
+struct IconEmoji_Previews: PreviewProvider {
+    static var previews: some View {
+        IconEmojiView(title: "test",
+                  image: "s",
+                  type: .animals,
+                  viewModel: GameViewModel())
     }
 }
